@@ -1,0 +1,13 @@
+{
+  "name": "stock-management",
+  "version": "1.0.0",
+  "author": "",
+  "license": "MIT",
+  "workspaces": [
+    "interfaces/*"
+  ],
+  "scripts": {
+    "start:cli": "npm start -w interfaces/cli",
+    "test": "npm test --workspaces --if-present"
+  }
+}

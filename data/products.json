@@ -1,0 +1,38 @@
+[
+  {
+    "id": "PNEU-001",
+    "description": "Pneu Michelin 205/55 R16",
+    "stock": 10,
+    "updatedAt": "2026-06-18T10:00:00.000Z"
+  },
+  {
+    "id": "PNEU-002",
+    "description": "Pneu Continental 195/65 R15",
+    "stock": 5,
+    "updatedAt": "2026-06-18T10:00:00.000Z"
+  },
+  {
+    "id": "ESSUIE-001",
+    "description": "Balai d'essuie-glace Bosch",
+    "stock": 18,
+    "updatedAt": "2026-06-18T14:19:42.777Z"
+  },
+  {
+    "id": "VIDANGE-001",
+    "description": "Kit vidange 5W40",
+    "stock": 15,
+    "updatedAt": "2026-06-18T10:00:00.000Z"
+  },
+  {
+    "id": "FREIN-001",
+    "description": "Plaquettes de frein Brembo",
+    "stock": 8,
+    "updatedAt": "2026-06-18T10:00:00.000Z"
+  },
+  {
+    "id": "BATTERIE-001",
+    "description": "Batterie 12V 60Ah",
+    "stock": 8,
+    "updatedAt": "2026-06-18T14:24:32.565Z"
+  }
+]
