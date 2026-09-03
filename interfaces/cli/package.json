@@ -1,0 +1,25 @@
+{
+  "name": "stock-management--cli",
+  "version": "1.0.0",
+  "description": "CLI de gestion de stock pour garagiste - TP Node.js",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node .",
+    "dev": "node --watch ."
+  },
+  "keywords": [
+    "nodejs",
+    "cli",
+    "stock",
+    "garage",
+    "clean-architecture"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "stock-management--domain": "1.0.0",
+    "stock-management--file-persistance": "1.0.0",
+    "dotenv": "^17.4.2"
+  }
+}

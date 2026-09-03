@@ -1,0 +1,12 @@
+{
+  "name": "stock-management--file-persistance",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "stock-management--domain": "1.0.0"
+  }
+}

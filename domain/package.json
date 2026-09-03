@@ -1,0 +1,13 @@
+{
+  "name": "stock-management--domain",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./errors": "./src/errors/index.js",
+    "./*": "./src/*"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
