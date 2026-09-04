@@ -1,0 +1,26 @@
+name: postgres
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stock_management
+    ports:
+      - "5432:5432"
+    # On first init only, the official image executes every *.sql / *.sh
+    # file in /docker-entrypoint-initdb.d in lexicographic order.
+    # 001-seed.sql creates the schema and loads products + stock_history
+    # (one snapshot row per product, from data/products.json).
+    volumes:
+      - ./seed/postgres:/docker-entrypoint-initdb.d:ro
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
