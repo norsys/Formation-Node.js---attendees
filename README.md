@@ -17,6 +17,42 @@ nvm use --lts
 
 Voir la [documentation officielle d'installation de Git](https://git-scm.com/downloads).
 
+### Docker
+
+Nécessaire uniquement si vous souhaitez démarrer les bases de données MongoDB et/ou PostgreSQL fournies dans [data](data). Voir la [documentation officielle d'installation de Docker](https://docs.docker.com/get-docker/) (le plugin Docker Compose est inclus dans Docker Desktop, vérifiable via `docker compose version`).
+
+## Bases de données
+
+Le dossier [data](data) fournit deux configurations Docker Compose optionnelles, chacune alimentée automatiquement à sa création via un fichier de seed.
+
+### MongoDB
+
+```
+docker compose -f data/docker-compose.mongo.yml up -d
+```
+
+- Port exposé : `27017`
+- Base : `stock_management`
+- Seed chargé au premier démarrage : [data/seed/mongo/001-seed.js](data/seed/mongo/001-seed.js)
+
+### PostgreSQL
+
+```
+docker compose -f data/docker-compose.postgres.yml up -d
+```
+
+- Port exposé : `5432`
+- Base : `stock_management`, utilisateur/mot de passe : `postgres` / `postgres`
+- Seed chargé au premier démarrage : [data/seed/postgres/001-seed.sql](data/seed/postgres/001-seed.sql)
+
+### Arrêt
+
+```
+docker compose -f <fichier-compose> down
+```
+
+Ajoutez `-v` pour supprimer le volume de données et forcer le rejeu du seed au prochain démarrage (celui-ci ne s'exécute qu'à la création initiale du volume).
+
 ## Présentation
 
 Cette branche fournit le point de départ d'un exercice de formation JavaScript + Node.js.

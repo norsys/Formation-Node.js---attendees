@@ -1,0 +1,24 @@
+name: mongo
+
+services:
+  db:
+    image: mongo:7
+    environment:
+      MONGO_INITDB_DATABASE: stock_management
+    ports:
+      - "27017:27017"
+    # On first init only, the official image runs every *.js / *.sh file
+    # in /docker-entrypoint-initdb.d in lexicographic order through
+    # `mongosh --file`. 001-seed.js loads products in the native shape
+    # (from data/products.json).
+    volumes:
+      - ./seed/mongo:/docker-entrypoint-initdb.d:ro
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:
