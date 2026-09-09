@@ -1,10 +1,15 @@
 /**
  * 
  */
-export function formatUserLabel(user) {
-    const id = user.id ?? "unknown";
-    const score = user.profile?.stats?.score ?? 0;
-    const role = user.role ?? "member";
-    const {firstName, lastName} = user.profile;
+export function formatUserLabel(
+    {
+        id = "unknown", 
+        role = "member", 
+        profile: {
+            firstName, 
+            lastName, 
+            stats: { score = 0 } = {}
+        }
+    } = {}) {
     return `${firstName} ${lastName} (#${id}) - ${role} [score=${score}]`;
 }
