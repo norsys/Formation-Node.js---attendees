@@ -24,7 +24,7 @@ test('getDisplayCity should return fallback when nested path is missing', async 
   assert.equal(result, 'N/A');
 });
 
-test('getDisplayCity should keep empty string and not trigger fallback', async () => {
+test.only('getDisplayCity should keep empty string and not trigger fallback', async () => {
   const exercise = await import('./modern-js-02-get-display-city.js');
   const user = { address: { city: '' } };
 

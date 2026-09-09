@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-
+//ok
 test('normalizeFlags should be a function', async () => {
   const exercise = await import('./modern-js-03-normalize-flags.js');
 
   assert.equal(typeof exercise.normalizeFlags, 'function');
 });
-
+// ok
 test('normalizeFlags should trim name with &&=', async () => {
   const exercise = await import('./modern-js-03-normalize-flags.js');
   const settings = {
