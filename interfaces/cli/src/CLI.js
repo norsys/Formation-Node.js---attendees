@@ -1,6 +1,5 @@
 import readline from 'node:readline';
 import { addStockToProduct, getProductById, saveProductsUpdating, useStockProduct } from './product.js'
-
 /**
  * Interface CLI pour la gestion de stock
  * Point d'interaction avec l'utilisateur
