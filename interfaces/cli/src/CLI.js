@@ -1,5 +1,5 @@
 import readline from 'node:readline';
-import {addStockToProduct, getProductById, saveProductsUpdating} from './product.js'
+import { addStockToProduct, getProductById, saveProductsUpdating, useStockProduct } from './product.js'
 
 /**
  * Interface CLI pour la gestion de stock
@@ -101,7 +101,7 @@ export class CLI {
           continue;
         }
 
-        if(!productId.trim()) {
+        if (!productId.trim()) {
           console.log("Id invalide");
           continue;
         }
@@ -116,8 +116,10 @@ export class CLI {
 
         if (actionResult.action === 'restock') {
           addStockToProduct(product, actionResult.quantity);
-          console.log(`${product.stock}`);
-          console.log(`${product.updatedAt}`);
+          await saveProductsUpdating(product);
+        }
+        if (actionResult.action === 'use') {
+          useStockProduct(product, actionResult.quantity);
           await saveProductsUpdating(product);
         }
       } catch (error) {

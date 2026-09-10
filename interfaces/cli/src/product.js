@@ -78,5 +78,16 @@ export function getProductById(productId) {
 export function addStockToProduct(product, additionalStock) {
     product.stock += additionalStock;
     product.updatedAt = new Date().toISOString();
-    return product;
 }
+
+export function useStockProduct(product, stockToUse) {
+    if (product.stock >= stockToUse) {
+        product.stock -= stockToUse;
+
+        product.updatedAt = new Date().toISOString();
+    }
+    else {
+        throw new Error("Quantité insuffisante");
+    }
+}
+
