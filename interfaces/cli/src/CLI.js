@@ -1,5 +1,5 @@
 import readline from 'node:readline';
-import {getProductById} from './product.js'
+import {addStockToProduct, getProductById, saveProductsUpdating} from './product.js'
 
 /**
  * Interface CLI pour la gestion de stock
@@ -113,7 +113,13 @@ export class CLI {
         if (actionResult === null) {
           continue;
         }
-        console.log('Not implemented yet.');
+
+        if (actionResult.action === 'restock') {
+          addStockToProduct(product, actionResult.quantity);
+          console.log(`${product.stock}`);
+          console.log(`${product.updatedAt}`);
+          await saveProductsUpdating(product);
+        }
       } catch (error) {
         console.log(`\n❌ Erreur: ${error.message}\n`);
       }
