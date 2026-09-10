@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import path from 'node:path';
 
 
 //const FILE_PATH = process.env.filepath ?? Promise.reject(new Error("missing file path"))
@@ -15,7 +16,7 @@ function getFilePath(){
  * @param {string} productId
  * @returns {Promise<any[]>}
  */
-function getProducts() {
+export function getProducts() {
     return fs.readFile(FILE_PATH).then(JSON.parse);
 }
 
@@ -63,6 +64,18 @@ export function useStockProduct(product, stockToUse) {
     else {
         throw new Error("Quantité insuffisante");
     }
+}
+
+
+export function writeToCSV(filePath, products) {
+    const productsCSV = [`id;description;stock;updatedAt\r\n`, ...products.map(toCSVLine)];
+    const dirname = path.dirname(filePath)
+    return fs.mkdir(dirname, { recursive: true }).then(() => 
+    fs.writeFile(filePath, productsCSV));
+}
+
+function toCSVLine({id, description, stock, updatedAt}) {
+    return `${id};${description};${stock};${updatedAt}\r\n`
 }
 
 

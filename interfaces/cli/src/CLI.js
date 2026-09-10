@@ -1,5 +1,5 @@
 import readline from 'node:readline';
-import { addStockToProduct, getProductById, saveProductsUpdating, useStockProduct } from './product.js'
+import { addStockToProduct, getProductById, getProducts, saveProductsUpdating, useStockProduct, writeToCSV } from './product.js'
 /**
  * Interface CLI pour la gestion de stock
  * Point d'interaction avec l'utilisateur
@@ -98,6 +98,11 @@ export class CLI {
         if (productId.toLowerCase().trim() === 'help') {
           this.#displayHelp();
           continue;
+        }
+
+        if (productId.toLowerCase().trim() === 'export'){
+            writeToCSV("../../data/products.csv", await getProducts());
+            continue;
         }
 
         if (!productId.trim()) {
