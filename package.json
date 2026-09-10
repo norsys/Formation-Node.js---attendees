@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "start:cli": "npm start -w interfaces/cli",
+    "start:dev-cli": "npm run dev -w interfaces/cli",
     "test": "npm test --workspaces --if-present"
   }
 }

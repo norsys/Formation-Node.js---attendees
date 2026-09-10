@@ -1,4 +1,5 @@
 import readline from 'node:readline';
+import {getProductById} from './product.js'
 
 /**
  * Interface CLI pour la gestion de stock
@@ -99,6 +100,14 @@ export class CLI {
           this.#displayHelp();
           continue;
         }
+
+        if(!productId.trim()) {
+          console.log("Id invalide");
+          continue;
+        }
+
+        const product = await getProductById(productId);
+        console.log(product);
 
         const actionResult = await this.#askForStockAction();
         if (actionResult === null) {
