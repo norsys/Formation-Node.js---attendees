@@ -4,16 +4,15 @@ import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProdu
 import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js'; 
 
-const FILE_PATH = "../../data/products.json";
 
-const jsonProductRepository = new JsonProductRepository(FILE_PATH);
+const jsonProductRepository = new JsonProductRepository(process.env.DATA_FILE_LOCATION);
 const listProductsUseCase = new ListProductsUseCase(jsonProductRepository);
 const getProductUseCase = new GetProductUseCase(jsonProductRepository);
 const updateStockUseCase = new UpdateStockUseCase(jsonProductRepository);
 
 export const getProducts =  ctx => {
   return listProductsUseCase.execute()
-    .then(products =>  products.map( p => ({id: p.id , description: p.id})))
+    .then(products =>  products.map( p => ({id: p.id , description: p.description})))
     .then(p => ctx.body = p)
 }
 
