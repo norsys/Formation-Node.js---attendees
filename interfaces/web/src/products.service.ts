@@ -13,4 +13,10 @@ export class ProductsService {
       .list()
       .then(list => list.map(({ id, description }) => ({ id, description })));
   }
+  getProductByReference(productReference: string): object {
+    console.log(productReference);
+    const productRepository = new JsonProductRepository(join(process.cwd(), "../../data/products.json"));
+    return productRepository
+      .getById(productReference);
+  }
 }
