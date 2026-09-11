@@ -18,6 +18,8 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "types": ["vitest/globals", "node"],
-    "allowJs": true
+    "allowJs": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true
   }
 }

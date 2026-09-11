@@ -5,9 +5,9 @@ import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
 import type { ProductRepository } from 'stock-management--domain/repositories/ProductRepository.js';
-import { JsonProductRepository } from "stock-management--file-persistance/JsonProductRepository.js";
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
 import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
+import { PostgresProductRepository } from 'stock-management--db-persistance/PostgresProductRepository.ts';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -43,7 +43,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       },
       {
         provide: 'PRODUCT_REPOSITORY',
-        useFactory: () => new JsonProductRepository('../../data/products.json'),
+        useFactory: () => new PostgresProductRepository(),
       }
     ]
 })
