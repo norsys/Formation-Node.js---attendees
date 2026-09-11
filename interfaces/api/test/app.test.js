@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import request from 'supertest';
 
 // On force le chemin du fichier vers un fichier JSON de FIXTURES/TESTS
-process.env.DATA_FILE_LOCATION = "../../data/products-test.json"
+process.env.DATA_FILE_LOCATION = "./data/products-test.json"
 
 // On importe app APRÈS avoir défini la variable d'environnement
-const { default: app } = await import('./app.js');
+const { default: app } = await import('../src/app.js');
 
 describe('API Products', () => {
   

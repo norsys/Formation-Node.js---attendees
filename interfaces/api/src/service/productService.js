@@ -1,3 +1,4 @@
+
 import { ProductNotFoundError, InvalidProductIdError, InvalidQuantityError, InsufficientStockError } from 'stock-management--domain/errors';
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
