@@ -1,4 +1,4 @@
-import { ProductNotFoundError, InvalidProductIdError } from 'stock-management--domain/errors';
+import { ProductNotFoundError, InvalidProductIdError, InvalidQuantityError, InsufficientStockError } from 'stock-management--domain/errors';
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
 import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
@@ -52,6 +52,38 @@ export const restock =  async ctx => {
   const id = ctx.params.id;
   const qt = Number(ctx.query.quantity);
   console.log(qt);
-  const product = await new UpdateStockUseCase(new JsonProductRepository(FILE_PATH)).execute(id, 'restock', qt)
-  ctx.body = product;
+  try {
+    const product = await new UpdateStockUseCase(new JsonProductRepository(FILE_PATH)).execute(id, 'restock', qt)
+    ctx.body = product;
+  } 
+  catch( e ) {
+    if (e instanceof ProductNotFoundError) {
+      ctx.throw(404, 'Produit introuvable');
+    } else if (e instanceof InvalidQuantityError) {
+      ctx.throw(400, 'Quantité invalide');
+    } else {
+      ctx.throw(500, 'Erreur interne au serveur');
+    }
+  }
+}
+
+export const use =  async ctx => {
+  const id = ctx.params.id;
+  const qt = Number(ctx.query.quantity);
+  console.log(qt);
+  try {
+  const product = await new UpdateStockUseCase(new JsonProductRepository(FILE_PATH)).execute(id, 'use', qt)
+    ctx.body = product;
+  } 
+  catch( e ) {
+    if (e instanceof ProductNotFoundError) {
+      ctx.throw(404, 'Produit introuvable');
+    } else if (e instanceof InvalidQuantityError) {
+      ctx.throw(400, 'Quantité invalide');
+    } else if (e instanceof InsufficientStockError) {
+      ctx.throw(422, 'Stock insuffisant');
+    } else{
+      ctx.throw(500, 'Erreur interne au serveur');
+    }
+  }
 }
