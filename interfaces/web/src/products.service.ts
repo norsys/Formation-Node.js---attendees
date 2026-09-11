@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { join } from 'path';
 import { Product } from 'stock-management--domain/entities/Product.js';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js';
 
@@ -7,16 +6,26 @@ import { JsonProductRepository } from 'stock-management--file-persistance/JsonPr
 
 @Injectable()
 export class ProductsService {
+  constructor(private readonly productRepository: JsonProductRepository) { }
+
   getProducts(): object {
-    const productRepository = new JsonProductRepository(join(process.cwd(), "../../data/products.json"));
-    return productRepository
+    return this.productRepository
       .list()
       .then(list => list.map(({ id, description }) => ({ id, description })));
   }
-  getProductByReference(productReference: string): object {
-    console.log(productReference);
-    const productRepository = new JsonProductRepository(join(process.cwd(), "../../data/products.json"));
-    return productRepository
+  getProductByReference(productReference: string): Promise<Product | undefined> {
+    return this.productRepository
       .getById(productReference);
   }
+  restockProduct(productReference: string, quantity: number): Promise<Product | undefined> {
+
+    this.getProductByReference(productReference).then(p => {
+      if (p === undefined) return undefined;
+      this.productRepository.update(p.restock(quantity));
+
+    }
+    )
+    return this.getProductByReference(productReference)
+  }
+
 }

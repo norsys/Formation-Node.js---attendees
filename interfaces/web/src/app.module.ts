@@ -3,6 +3,8 @@ import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ProductsService } from './products.service.js';
+import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js';
+import { join } from 'path';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -17,6 +19,9 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, ProductsService],
+  providers: [AppService, ProductsService, {
+    provide: JsonProductRepository,
+    useValue: new JsonProductRepository(join(process.cwd(), "../../data/products.json"))
+  }],
 })
 export class AppModule { }
