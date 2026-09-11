@@ -25,4 +25,9 @@ export class AppController {
   restock(@Param("productReference") productReference: string, @Query("quantity") quantity: string): object {
     return this.productsService.restockProduct(productReference, quantity);
   }
+
+  @Patch("/products/:productReference/use")
+  use(@Param("productReference") productReference: string, @Query("quantity") quantity: string): object {
+    return this.productsService.use(productReference, quantity);
+  }
 }
