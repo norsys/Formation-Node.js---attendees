@@ -8,6 +8,7 @@ import { ProductRepository } from 'stock-management--domain/repositories/Product
  * Implémentation concrète du ProductRepository pour un stockage JSON
  * Utilise les streams et buffers pour la lecture/écriture
  */
+@Injectable()
 export class JsonProductRepository extends ProductRepository {
   /**
    * @param {string} filePath

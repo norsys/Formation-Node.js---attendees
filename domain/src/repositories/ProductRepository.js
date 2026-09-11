@@ -28,3 +28,5 @@ export class ProductRepository {
    */
   async list() {}
 }
+
+export const PRODUCT_REPOSITORY = Symbol('PRODUCT_REPOSITORY');
