@@ -19,13 +19,12 @@ export class ProductsService {
   }
   restockProduct(productReference: string, quantity: number): Promise<Product | undefined> {
 
-    this.getProductByReference(productReference).then(p => {
+    return this.getProductByReference(productReference).then(p => {
       if (p === undefined) return undefined;
-      this.productRepository.update(p.restock(quantity));
-
+      const restockedProduct = p.restock(quantity);
+      return this.productRepository.update(restockedProduct).then(() => restockedProduct);
     }
     )
-    return this.getProductByReference(productReference)
   }
 
 }

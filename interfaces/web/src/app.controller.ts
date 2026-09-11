@@ -26,8 +26,9 @@ export class AppController {
     );
   }
 
-  @Patch("/products/:productReference/restock")
-  restock(@Param("productReference") productReference: string, @Query("quantity") quantity: number): object {
-    return this.productsService.restockProduct(productReference, quantity);
+  @Get("/products/:productReference/restock")
+  restock(@Param("productReference") productReference: string, @Query("quantity") quantity: string): object {
+    const quantityNumber = Number.parseInt(quantity);
+    return this.productsService.restockProduct(productReference, quantityNumber);
   }
 }
