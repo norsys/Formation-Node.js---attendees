@@ -1,6 +1,7 @@
 import { ProductNotFoundError, InvalidProductIdError } from 'stock-management--domain/errors';
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
+import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js'; 
 
 
@@ -16,7 +17,7 @@ export const getProducts =  ctx => {
 export const getProductAwait = async ctx => {
   const id = ctx.params.id;
   try {
-    const product = await new GetProductUseCase(new JsonProductRepository("../../data/products.json")).execute(id)
+    const product = await new GetProductUseCase(new JsonProductRepository(FILE_PATH)).execute(id)
     ctx.body = product;
   } 
   catch( e ) {
@@ -32,14 +33,25 @@ export const getProductAwait = async ctx => {
 };
 
 
+const FILE_PATH = "../../data/products.json";
 // version .then
 export const getProductThen = (ctx) => { // Pas besoin de "async" ici
   const id = ctx.params.id;
 
   // Le "return" indique à Koa qu'il doit attendre cette promesse
-  return new GetProductUseCase(new JsonProductRepository("../../data/products.json"))
+  return new GetProductUseCase(new JsonProductRepository(FILE_PATH))
     .execute(id)
     .then(product => {
       ctx.body = 'Product page ' + product.description;
     });
 };
+
+
+
+export const restock =  async ctx => {
+  const id = ctx.params.id;
+  const qt = Number(ctx.query.quantity);
+  console.log(qt);
+  const product = await new UpdateStockUseCase(new JsonProductRepository(FILE_PATH)).execute(id, 'restock', qt)
+  ctx.body = product;
+}
