@@ -1,6 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Patch, Query } from '@nestjs/common';
 import { AppService } from './app.service.js';
 import { ProductsService } from './products.service.js';
+import { Product } from 'stock-management--domain/entities/Product.js';
 
 
 @Controller()
@@ -17,6 +18,16 @@ export class AppController {
   }
   @Get("/products/:productReference")
   getProductByReference(@Param("productReference") productReference: string): object {
-    return this.productsService.getProductByReference(productReference);
+    return this.productsService.getProductByReference(productReference).then(
+      p => {
+        if (p === undefined) throw new NotFoundException("Product not found")
+        return p
+      }
+    );
+  }
+
+  @Patch("/products/:productReference/restock")
+  restock(@Param("productReference") productReference: string, @Query("quantity") quantity: number): object {
+    return this.productsService.restockProduct(productReference, quantity);
   }
 }
