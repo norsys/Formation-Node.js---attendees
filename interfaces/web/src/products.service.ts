@@ -6,6 +6,21 @@ import { JsonProductRepository } from 'stock-management--file-persistance/JsonPr
 
 @Injectable()
 export class ProductsService {
+  use(productReference: string, quantity: string): object {
+
+    const quantityNumber = Number.parseInt(quantity);
+
+    if (quantityNumber < 0) throw new BadRequestException("Qauntité invalide")
+
+
+    return this.getProductByReference(productReference).then(p => {
+      if (p === undefined) return undefined;
+      const usedProduct = p.use(quantityNumber);
+      return this.productRepository.update(usedProduct).then(() => usedProduct)
+
+    }
+    )
+  }
   constructor(private readonly productRepository: JsonProductRepository) { }
 
   getProducts(): object {
