@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
 import type { ProductRepository } from 'stock-management--domain/repositories/ProductRepository.js';
 import { JsonProductRepository } from "stock-management--file-persistance/JsonProductRepository.js";
+import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
+import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -26,6 +28,17 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       {
         provide: ListProductsUseCase,
         useFactory: (repo: ProductRepository) => new ListProductsUseCase(repo),
+        inject: ['PRODUCT_REPOSITORY']
+      },
+      {
+        provide: GetProductUseCase,
+        useFactory: (repo: ProductRepository) => new GetProductUseCase(repo),
+        inject: ['PRODUCT_REPOSITORY']
+      },
+
+      {
+        provide: UpdateStockUseCase,
+        useFactory: (repo: ProductRepository) => new UpdateStockUseCase(repo),
         inject: ['PRODUCT_REPOSITORY']
       },
       {

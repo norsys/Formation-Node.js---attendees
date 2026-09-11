@@ -30,6 +30,7 @@ export class UpdateStockUseCase {
    * @returns {Promise<Product>}
    */
   async execute(productId, action, quantity) {
+    console.log('ok');
     if (typeof productId !== 'string' || productId.trim() === '') {
       throw new InvalidProductIdError();
     }
