@@ -3,10 +3,10 @@ import { ProductNotFoundError, InvalidProductIdError, InvalidQuantityError, Insu
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
 import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
-import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js'; 
+import { MongoProductRepository } from 'stock-management--database-persistance/MongoProductRepository.js'; 
 
 
-const jsonProductRepository = new JsonProductRepository(process.env.DATA_FILE_LOCATION);
+const jsonProductRepository = new MongoProductRepository(process.env.DATA_FILE_LOCATION);
 const listProductsUseCase = new ListProductsUseCase(jsonProductRepository);
 const getProductUseCase = new GetProductUseCase(jsonProductRepository);
 const updateStockUseCase = new UpdateStockUseCase(jsonProductRepository);

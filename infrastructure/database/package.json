@@ -1,0 +1,13 @@
+{
+  "name": "stock-management--database-persistance",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "mongodb": "^7.6.0",
+    "stock-management--domain": "1.0.0"
+  }
+}
