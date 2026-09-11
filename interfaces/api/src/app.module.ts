@@ -4,7 +4,7 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
-import { ProductRepository } from 'stock-management--domain/repositories/ProductRepository.js';
+import type { ProductRepository } from 'stock-management--domain/repositories/ProductRepository.js';
 import { JsonProductRepository } from "stock-management--file-persistance/JsonProductRepository.js";
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
@@ -23,10 +23,14 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
   controllers: [AppController],
   providers: [
       AppService,
-      ListProductsUseCase,
+      {
+        provide: ListProductsUseCase,
+        useFactory: (repo: ProductRepository) => new ListProductsUseCase(repo),
+        inject: ['PRODUCT_REPOSITORY']
+      },
       {
         provide: 'PRODUCT_REPOSITORY',
-        useClass: JsonProductRepository,
+        useFactory: () => new JsonProductRepository('../../data/products.json'),
       }
     ]
 })
