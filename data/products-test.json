@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TEST-001",
+    "description": "Desc 1",
+    "stock": 50,
+    "updatedAt": "2026-09-11T11:43:14.081Z"
+  },
+  {
+    "id": "TEST-002",
+    "description": "Desc 2",
+    "stock": 5,
+    "updatedAt": "2026-06-18T10:00:00.000Z"
+  }
+]

@@ -61,13 +61,9 @@ describe('API Products', () => {
     const product = response.body;
     assert.equal(product.stock, stock+10)
     assert.equal(new Date(product.updatedAt) > updatedAt, true)
-
-    await request(app.callback())
-      .patch('/products/TEST-001/use?quantity=10')
-      .expect(200);
   });
 
-   it('PATCH /products/:id/use doit mettre à jour le stock', async () => {
+  it('PATCH /products/:id/use doit mettre à jour le stock', async () => {
     const responseBefore = await request(app.callback())
       .get('/products/TEST-001')
       .expect(200);
@@ -80,10 +76,6 @@ describe('API Products', () => {
     const product = response.body;
     assert.equal(product.stock, stock-10)
     assert.equal(new Date(product.updatedAt) > updatedAt, true)
-
-    await request(app.callback())
-      .patch('/products/TEST-001/restock?quantity=10')
-      .expect(200);
   });
 
 });
