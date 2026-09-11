@@ -1,3 +1,4 @@
+import { ProductNotFoundError, InvalidProductIdError } from 'stock-management--domain/errors';
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
 import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js'; 
@@ -14,8 +15,20 @@ export const getProducts =  ctx => {
 // version await
 export const getProductAwait = async ctx => {
   const id = ctx.params.id;
-  const product = await new GetProductUseCase(new JsonProductRepository("../../data/products.json")).execute(id)
-  ctx.body = 'Product page ' + product.description;
+  try {
+    const product = await new GetProductUseCase(new JsonProductRepository("../../data/products.json")).execute(id)
+    ctx.body = product;
+  } 
+  catch( e ) {
+    if (e instanceof ProductNotFoundError) {
+      ctx.throw(404, 'Produit introuvable');
+    } else if (e instanceof InvalidProductIdError) {
+      ctx.throw(400, 'ID du produit invalide');
+    } else {
+      ctx.throw(500, 'Erreur interne au serveur');
+    }
+  }
+
 };
 
 
