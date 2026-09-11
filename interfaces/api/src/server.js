@@ -1,13 +1,12 @@
 import Koa from 'koa';
 import Router from '@koa/router';
-import {index, about, getProduct} from './controllers/stock.js';
+import {getProductAwait, getProductThen} from './service/productService.js';
 
 const app = new Koa();
 const router = new Router();
 
-router.get('/', index);
-router.get('/about', about);
-router.get('/getProduct/:id', getProduct)
+router.get('/products/:id', getProductAwait)
+router.get('/products-then/:id', getProductThen)
 
 app.use(router.routes());
 app.use(router.allowedMethods());
