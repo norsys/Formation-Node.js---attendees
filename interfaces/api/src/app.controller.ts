@@ -60,6 +60,4 @@ export class AppController {
         else  throw error;
       })
   }
-
-
 }
