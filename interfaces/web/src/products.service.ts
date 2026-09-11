@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { error } from 'console';
+import { pgProductRepository } from 'stock-management--db-persistance/pgProductRepository.js';
 import { Product } from 'stock-management--domain/entities/Product.js';
 import { InsufficientStockError } from 'stock-management--domain/errors';
-import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js';
 
 
 
@@ -16,7 +16,7 @@ export class ProductsService {
 
 
     return this.getProductByReference(productReference).then(p => {
-      if (p === undefined) return undefined;
+      if (p === undefined || p === null) return undefined;
       try {
         const usedProduct = p.use(quantityNumber);
         return this.productRepository.update(usedProduct).then(() => usedProduct);
@@ -29,14 +29,14 @@ export class ProductsService {
     }
     )
   }
-  constructor(private readonly productRepository: JsonProductRepository) { }
+  constructor(private readonly productRepository: pgProductRepository) { }
 
   getProducts(): object {
     return this.productRepository
       .list()
       .then(list => list.map(({ id, description }) => ({ id, description })));
   }
-  getProductByReference(productReference: string): Promise<Product> {
+  getProductByReference(productReference: string): Promise<Product | null> {
     return this.productRepository
       .getById(productReference).then(p => {
         if (p === undefined) throw new NotFoundException("Product not found")
@@ -50,7 +50,7 @@ export class ProductsService {
     if (quantityNumber < 0) throw new BadRequestException("Qauntité invalide")
 
     return this.getProductByReference(productReference).then(p => {
-      if (p === undefined) return undefined;
+      if (p === undefined || p === null) return undefined;
       const restockedProduct = p.restock(quantityNumber);
       return this.productRepository.update(restockedProduct).then(() => restockedProduct);
     }

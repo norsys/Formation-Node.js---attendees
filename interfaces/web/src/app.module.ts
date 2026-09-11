@@ -20,9 +20,6 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, ProductsService, {
-    provide: pgProductRepository,
-    useValue: new pgProductRepository()
-  }],
+  providers: [AppService, ProductsService, pgProductRepository],
 })
 export class AppModule { }
