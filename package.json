@@ -13,5 +13,9 @@
     "start:web": "npm run start:dev -w interfaces/web",
     "test:domain": "npm test -w domain",
     "test": "npm test --workspaces --if-present"
+  },
+  "dependencies": {
+    "db": "^1.0.0",
+    "stock-management--db-persistance": "^1.0.0"
   }
 }
