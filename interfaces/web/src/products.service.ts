@@ -1,5 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { error } from 'console';
 import { Product } from 'stock-management--domain/entities/Product.js';
+import { InsufficientStockError } from 'stock-management--domain/errors';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js';
 
 
@@ -15,9 +17,15 @@ export class ProductsService {
 
     return this.getProductByReference(productReference).then(p => {
       if (p === undefined) return undefined;
-      const usedProduct = p.use(quantityNumber);
-      return this.productRepository.update(usedProduct).then(() => usedProduct)
+      try {
+        const usedProduct = p.use(quantityNumber);
+        return this.productRepository.update(usedProduct).then(() => usedProduct);
+      } catch (error) {
+        if (error instanceof InsufficientStockError) {
+          throw new UnprocessableEntityException();
 
+        }
+      }
     }
     )
   }
