@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, Param, Patch, Query } from '@nestjs/common';
+import { BadRequestException, Controller, Get, NotFoundException, Param, Patch, Query } from '@nestjs/common';
 import { AppService } from './app.service.js';
 import { ProductsService } from './products.service.js';
 import { Product } from 'stock-management--domain/entities/Product.js';
@@ -26,9 +26,10 @@ export class AppController {
     );
   }
 
-  @Get("/products/:productReference/restock")
+  @Patch("/products/:productReference/restock")
   restock(@Param("productReference") productReference: string, @Query("quantity") quantity: string): object {
     const quantityNumber = Number.parseInt(quantity);
+    if (quantityNumber < 0) return new BadRequestException("Quantity Invalid");
     return this.productsService.restockProduct(productReference, quantityNumber);
   }
 }
