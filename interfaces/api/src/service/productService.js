@@ -4,10 +4,15 @@ import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProdu
 import { UpdateStockUseCase } from 'stock-management--domain/usecases/UpdateStockUseCase.js';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js'; 
 
+const FILE_PATH = "../../data/products.json";
+
+const jsonProductRepository = new JsonProductRepository(FILE_PATH);
+const listProductsUseCase = new ListProductsUseCase(jsonProductRepository);
+const getProductUseCase = new GetProductUseCase(jsonProductRepository);
+const updateStockUseCase = new UpdateStockUseCase(jsonProductRepository);
 
 export const getProducts =  ctx => {
-  return new ListProductsUseCase(new JsonProductRepository("../../data/products.json"))
-    .execute()
+  return listProductsUseCase.execute()
     .then(products =>  products.map( p => ({id: p.id , description: p.id})))
     .then(p => ctx.body = p)
 }
@@ -17,14 +22,14 @@ export const getProducts =  ctx => {
 export const getProductAwait = async ctx => {
   const id = ctx.params.id;
   try {
-    const product = await new GetProductUseCase(new JsonProductRepository(FILE_PATH)).execute(id)
+    const product = await getProductUseCase.execute(id)
     ctx.body = product;
   } 
   catch( e ) {
     if (e instanceof ProductNotFoundError) {
       ctx.throw(404, 'Produit introuvable');
     } else if (e instanceof InvalidProductIdError) {
-      ctx.throw(400, 'ID du produit invalide');
+      ctx.throw(400, {reason : 'ID du produit invalide'});
     } else {
       ctx.throw(500, 'Erreur interne au serveur');
     }
@@ -33,14 +38,12 @@ export const getProductAwait = async ctx => {
 };
 
 
-const FILE_PATH = "../../data/products.json";
 // version .then
 export const getProductThen = (ctx) => { // Pas besoin de "async" ici
   const id = ctx.params.id;
 
   // Le "return" indique à Koa qu'il doit attendre cette promesse
-  return new GetProductUseCase(new JsonProductRepository(FILE_PATH))
-    .execute(id)
+  return getProductUseCase.execute(id)
     .then(product => {
       ctx.body = 'Product page ' + product.description;
     });
@@ -51,16 +54,16 @@ export const getProductThen = (ctx) => { // Pas besoin de "async" ici
 export const restock =  async ctx => {
   const id = ctx.params.id;
   const qt = Number(ctx.query.quantity);
-  console.log(qt);
+
   try {
-    const product = await new UpdateStockUseCase(new JsonProductRepository(FILE_PATH)).execute(id, 'restock', qt)
+    const product = await updateStockUseCase.execute(id, 'restock', qt)
     ctx.body = product;
   } 
   catch( e ) {
     if (e instanceof ProductNotFoundError) {
       ctx.throw(404, 'Produit introuvable');
     } else if (e instanceof InvalidQuantityError) {
-      ctx.throw(400, 'Quantité invalide');
+      ctx.throw(400, {reason: 'Quantité invalide'});
     } else {
       ctx.throw(500, 'Erreur interne au serveur');
     }
@@ -70,16 +73,15 @@ export const restock =  async ctx => {
 export const use =  async ctx => {
   const id = ctx.params.id;
   const qt = Number(ctx.query.quantity);
-  console.log(qt);
   try {
-  const product = await new UpdateStockUseCase(new JsonProductRepository(FILE_PATH)).execute(id, 'use', qt)
+  const product = await updateStockUseCase.execute(id, 'use', qt)
     ctx.body = product;
   } 
   catch( e ) {
     if (e instanceof ProductNotFoundError) {
       ctx.throw(404, 'Produit introuvable');
     } else if (e instanceof InvalidQuantityError) {
-      ctx.throw(400, 'Quantité invalide');
+      ctx.throw(400, 'Quantité invalide', {reason: 'Quantité invalide'});
     } else if (e instanceof InsufficientStockError) {
       ctx.throw(422, 'Stock insuffisant');
     } else{
