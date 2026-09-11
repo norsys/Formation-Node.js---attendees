@@ -18,17 +18,11 @@ export class AppController {
   }
   @Get("/products/:productReference")
   getProductByReference(@Param("productReference") productReference: string): object {
-    return this.productsService.getProductByReference(productReference).then(
-      p => {
-        if (p === undefined) throw new NotFoundException("Product not found")
-        return p
-      }
-    );
+    return this.productsService.getProductByReference(productReference);
   }
 
-  @Get("/products/:productReference/restock")
+  @Patch("/products/:productReference/restock")
   restock(@Param("productReference") productReference: string, @Query("quantity") quantity: string): object {
-    const quantityNumber = Number.parseInt(quantity);
-    return this.productsService.restockProduct(productReference, quantityNumber);
+    return this.productsService.restockProduct(productReference, quantity);
   }
 }
