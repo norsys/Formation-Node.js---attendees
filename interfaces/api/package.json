@@ -1,0 +1,27 @@
+{
+  "name": "stock-management--api",
+  "version": "1.0.0",
+  "description": "API de gestion de stock pour garagiste - TP Node.js",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node .",
+    "dev": "node --watch ."
+  },
+  "keywords": [
+    "nodejs",
+    "api",
+    "stock",
+    "garage",
+    "clean-architecture"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@koa/router": "^15.7.0",
+    "dotenv": "^17.4.2",
+    "koa": "^3.2.1",
+    "stock-management--domain": "1.0.0",
+    "stock-management--file-persistance": "1.0.0"
+  }
+}

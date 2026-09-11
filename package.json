@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "start:cli": "npm start -w interfaces/cli",
+    "start:api": "npm start -w interfaces/api",
     "test:domain": "npm test -w domain",
     "test": "npm test --workspaces --if-present"
   }
