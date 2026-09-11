@@ -1,5 +1,14 @@
 import { GetProductUseCase } from 'stock-management--domain/usecases/GetProductUseCase.js';
+import { ListProductsUseCase } from 'stock-management--domain/usecases/ListProductsUseCase.js';
 import { JsonProductRepository } from 'stock-management--file-persistance/JsonProductRepository.js'; 
+
+
+export const getProducts =  ctx => {
+  return new ListProductsUseCase(new JsonProductRepository("../../data/products.json"))
+    .execute()
+    .then(products =>  products.map( p => ({id: p.id , description: p.id})))
+    .then(p => ctx.body = p)
+}
 
 
 // version await
