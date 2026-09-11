@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service.js';
 import { ProductsService } from './products.service.js';
 
@@ -14,5 +14,9 @@ export class AppController {
   @Get("/products")
   getProducts(): object {
     return this.productsService.getProducts();
+  }
+  @Get("/products/:productReference")
+  getProductByReference(@Param("productReference") productReference: string): object {
+    return this.productsService.getProductByReference(productReference);
   }
 }
